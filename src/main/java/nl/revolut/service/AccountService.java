@@ -8,6 +8,7 @@ import javax.inject.Named;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,12 +16,13 @@ public class AccountService {
     private final ConcurrentHashMap<String, Account> accountMap;
 
     @Inject
-    public AccountService(@Named("INITIAL_ACCOUNT_MAP") final ConcurrentHashMap<String, Account> accountMap) {
-        this.accountMap = accountMap;
+    public AccountService(@Named("INITIAL_ACCOUNT_MAP") final Map<String, Account> accountMap) {
+        this.accountMap = new ConcurrentHashMap(accountMap);
     }
 
     public boolean makeTransaction(final String creditAccountId, final String debitAccountId, final BigDecimal amount)
         throws AccountVerificationException {
+        //FIXME: race condition. must be checked for thread safety
         Account creditAccount = resolveAccount(creditAccountId);
         Account debitAccount = resolveAccount(debitAccountId);
         //get money from the credit account
@@ -35,7 +37,7 @@ public class AccountService {
                 return false;
             }
         } else {
-            //credit failed
+            //credit failed(so far it can happen only because on insufficient founds, overdraft isn't allowed)
             return false;
         }
     }

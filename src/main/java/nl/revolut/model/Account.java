@@ -18,18 +18,18 @@ public class Account {
         if (amount != null && amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Credit amount should be possitive.");
         }
-        if (balance.compareTo(amount) >= 0) {
-            balance.subtract(amount);
-            return true;
+        if (balance.compareTo(amount) < 0) {
+            return false;
         }
-        return false;
+        balance = balance.subtract(amount);
+        return true;
     }
 
     public boolean debit(final BigDecimal amount) {
         if (amount != null && amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Debit amount should be possitive.");
         }
-        balance.add(amount);
+        balance = balance.add(amount);
         return true;
     }
 }

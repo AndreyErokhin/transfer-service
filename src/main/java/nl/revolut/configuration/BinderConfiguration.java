@@ -8,7 +8,7 @@ import org.glassfish.hk2.api.TypeLiteral;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 import javax.inject.Singleton;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 public class BinderConfiguration extends AbstractBinder {
     private final TransferServiceConfiguration configuration;
@@ -26,7 +26,7 @@ public class BinderConfiguration extends AbstractBinder {
         bind(AccountService.class).to(AccountService.class).in(Singleton.class);
         bind(TransferService.class).to(TransferService.class).in(Singleton.class);
         bind(ProcessingService.class).to(ProcessingService.class).in(Singleton.class);
-        bind(configuration.getAccountMap()).to(new TypeLiteral<ConcurrentHashMap<String, Account>>() {
+        bind(configuration.getAccountMap()).to(new TypeLiteral<Map<String, Account>>() {
         }).named("INITIAL_ACCOUNT_MAP");
     }
 

@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group 'revolut'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // JAX-B dependencies for JDK 9+
+    implementation "javax.xml.bind:jaxb-api:2.2.11"
+    implementation "com.sun.xml.bind:jaxb-core:2.2.11"
+    implementation "com.sun.xml.bind:jaxb-impl:2.2.11"
+    implementation "javax.activation:activation:1.1.1"
+
+    compile 'io.dropwizard:dropwizard-core:1.3.7'
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    testCompile 'junit:junit:4.12'
+}

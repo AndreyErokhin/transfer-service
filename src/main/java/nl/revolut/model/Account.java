@@ -27,7 +27,7 @@ public class Account {
 
     public boolean debit(final BigDecimal amount) {
         if (amount != null && amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Debit amount should be possitive.");
+            throw new IllegalArgumentException("Debit amount should be positive.");
         }
         balance = balance.add(amount);
         return true;

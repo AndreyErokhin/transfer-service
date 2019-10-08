@@ -70,12 +70,12 @@ public class AccountService {
         );
     }
 
-    /**
-     * @param updatedAccount
-     * @return updated account or null if account with the same id is not found.
-     */
-    public Account update(final Account updatedAccount) {
-        return accountMap.computeIfPresent(updatedAccount.getAccountId(), (accountId, oldAccount) -> updatedAccount);
+
+    public Account updateBalance(final String accountId, final BigDecimal newBalance) {
+        return accountMap.computeIfPresent(
+            accountId,
+            (oldAccountId, oldAccount) -> new Account(oldAccountId, newBalance)
+        );
     }
 
     public boolean delete(final String accountId) {

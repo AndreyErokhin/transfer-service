@@ -81,12 +81,16 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void update() {
-        Account updated = service.getAccountById(ACCOUNT_1).get();
+    public void updateSuccessful() {
         BigDecimal expectedBalance = BigDecimal.valueOf(888);
-        updated.setBalance(expectedBalance);
-        service.update(updated);
+        service.updateBalance(ACCOUNT_1, expectedBalance);
         assertEquals(expectedBalance, service.getAccountById(ACCOUNT_1).get().getBalance());
+    }
+
+    @Test
+    public void updateNonExistent() {
+        BigDecimal expectedBalance = BigDecimal.valueOf(-888);
+        assertNull(service.updateBalance("WRONG", expectedBalance));
     }
 
     @Test

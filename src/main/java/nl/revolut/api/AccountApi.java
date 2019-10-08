@@ -14,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,16 +53,9 @@ public class AccountApi {
     @Path("/account/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("id") final String accountId, final Account account) {
-        if (!accountId.equals(account.getAccountId())) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                .entity("Account IDs doesn't match.")
-                .build();
-        }
-        Account updatedAccount = accountService.update(account);
-        return updatedAccount != null ? Response.status(Response.Status.NO_CONTENT)
-            .entity("Account updated successfully.")
-            .build() : notFound(accountId);
+    public Response updateBalance(@PathParam("id") final String accountId, final BigDecimal newBalance) {
+        Account updatedAccount = accountService.updateBalance(accountId, newBalance);
+        return updatedAccount != null ? Response.ok().entity(updatedAccount).build() : notFound(accountId);
     }
 
     @DELETE

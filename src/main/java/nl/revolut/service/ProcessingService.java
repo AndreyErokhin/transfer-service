@@ -41,7 +41,7 @@ public class ProcessingService {
                 log.error("Incorrect account.", e);
                 return false;
             }
-        });
+        }, executorService);
         return transferTask;
     }
 

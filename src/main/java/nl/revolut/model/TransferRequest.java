@@ -1,10 +1,10 @@
 package nl.revolut.model;
 
-import lombok.Data;
+import lombok.Value;
 
 import java.math.BigDecimal;
 
-@Data
+@Value
 public class TransferRequest {
     private final String creditAccountId;
     private final String debitAccountId;

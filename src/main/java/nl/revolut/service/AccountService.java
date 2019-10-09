@@ -1,5 +1,6 @@
 package nl.revolut.service;
 
+import nl.revolut.exception.AccountBalanceException;
 import nl.revolut.exception.AccountVerificationException;
 import nl.revolut.model.Account;
 
@@ -22,23 +23,55 @@ public class AccountService {
 
     public boolean makeTransaction(final String creditAccountId, final String debitAccountId, final BigDecimal amount)
         throws AccountVerificationException {
-        //FIXME: race condition. must be checked for thread safety
-        Account creditAccount = resolveAccount(creditAccountId);
-        Account debitAccount = resolveAccount(debitAccountId);
-        //get money from the credit account
-        if (creditAccount.credit(amount)) {
-            //add money to the debit account
-            if (debitAccount.debit(amount)) {
-                //debit and credit both succeed
-                return true;
-            } else {
-                //only credit succeed, rollback transaction
-                creditAccount.debit(amount);
-                return false;
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Transfer amount must be a positive number!");
+        }
+        creditAccount(creditAccountId, amount);
+        try {
+            debitAccount(debitAccountId, amount);
+        } catch (AccountVerificationException e) {
+            //debit account not found return funds.
+            rollBackTransfer(creditAccountId, amount);
+            throw e;
+        }
+        return true;
+    }
+
+    private void rollBackTransfer(final String creditAccountId, final BigDecimal amount) {
+        try {
+            debitAccount(creditAccountId, amount);
+        } catch (AccountVerificationException disaster) {
+            //can't return money back. We can pay bonus to the developers now :)
+            //probably there should be some notification, and separate procedure how to handle such a situations.
+            throw new RuntimeException(disaster);
+        }
+    }
+
+    private void creditAccount(final String creditAccountId, final BigDecimal amount)
+        throws AccountVerificationException, AccountBalanceException {
+        Account updatedAccout = accountMap.computeIfPresent(creditAccountId, (accountId, creditAccount) -> {
+            //not enough funds
+            if (creditAccount.getBalance().compareTo(amount) < 0) {
+                throw new AccountBalanceException(
+                    String.format("Can't charge the accountId=%s. Insufficient funds.", accountId)
+                );
             }
-        } else {
-            //credit failed(so far it can happen only because on insufficient founds, overdraft isn't allowed)
-            return false;
+            BigDecimal newBalance = creditAccount.getBalance().subtract(amount);
+            return new Account(accountId, newBalance);
+        });
+        if (updatedAccout == null) {
+            throw new AccountVerificationException("Credit account %s not found.");
+        }
+    }
+
+    private void debitAccount(final String debitAccountId, final BigDecimal amount)
+        throws AccountVerificationException {
+        Account updatedAccout = accountMap.computeIfPresent(debitAccountId, (accountId, debitAccount) -> {
+            BigDecimal newBalance = debitAccount.getBalance().add(amount);
+            return new Account(accountId, newBalance);
+        });
+        if (updatedAccout == null) {
+            throw new AccountVerificationException("Debit account %s not found.");
         }
     }
 
@@ -71,6 +104,7 @@ public class AccountService {
     }
 
 
+    //TODO: is negative balance check required?
     public Account updateBalance(final String accountId, final BigDecimal newBalance) {
         return accountMap.computeIfPresent(
             accountId,

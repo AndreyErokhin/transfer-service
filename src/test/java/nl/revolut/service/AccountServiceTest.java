@@ -1,6 +1,7 @@
 package nl.revolut.service;
 
 
+import nl.revolut.exception.AccountBalanceException;
 import nl.revolut.exception.AccountVerificationException;
 import nl.revolut.model.Account;
 import org.assertj.core.api.Assertions;
@@ -32,7 +33,12 @@ public class AccountServiceTest {
 
     @Test
     public void makeTransactionNotEnoughFunds() throws AccountVerificationException {
-        assertFalse(service.makeTransaction(firstAccount.getAccountId(),secondAccount.getAccountId(),BigDecimal.valueOf(11)));
+        try{
+            service.makeTransaction(firstAccount.getAccountId(),secondAccount.getAccountId(),BigDecimal.valueOf(11));
+            fail();
+        } catch (AccountBalanceException e){
+            assertTrue(service.getAccountById(ACCOUNT_1).get().getBalance().compareTo(BigDecimal.TEN)==0);
+        }
     }
 
     @Test(expected = AccountVerificationException.class)

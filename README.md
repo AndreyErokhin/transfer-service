@@ -1,4 +1,41 @@
 # transfer-service
-Test assigment for the fin-tech company. The rest API for money transfers between accounts.
+Test assigment for the fintech company. The rest API for money transfers between accounts.
 Using the Spring framework is forbidden.
-I used dpropwizard and lombok.
+
+To implement the service I used Drpwizard frameweork. More information you can on the project page: https://www.dropwizard.io/
+
+### Remarks.
+I tried to use as less frameworks as possible and as much pure JAVA as possible.
+
+There is only 1 integration test in the project:
+   `transfer-service/src/test/java/nl/revolut/TransferServiceApplicationTest.java`
+There is no need to test the app extensively, since the logic is very simple. I added this test as an example how I would do the testing. But In general API is covered by the tests.
+
+The Account API I added for convinience. I didn't spend much time on checking the concurrency issues and other potential drawbacks.   
+
+There are some features that are missing, like: explanation why transfer is failed, syncronous transfer execution, adittional verification of the input data, API documentation. But this can be easily added if there is such a need.  
+
+## How to build the project.
+1. Clone or download the progect.
+2. Execute gradle task `distZip` using gradle wrapper.
+  Linux:
+  ```
+  ./gradlew distZip
+  ```
+  Windows:
+  ```
+  gradlew.bat distZip
+  ```
+  3. Navigate to ${project-directory}/build/distributions
+  4. Unzip the archive `transfer-service-1.0-SNAPSHOT.zip` to some destination directory.
+  5. Navigate to the destination directory.
+  6. Navigate to the `bin` folder and execute the startup script `transfer-service` or `transfer-service.bat` depends on which operating system are you trying to run the service.
+
+Script takes two parameters:
+```
+./transfer-service server ~/git/transfer-service/src/main/resources/config.yml
+```
+First parameter should be `server` like in example above. Second parameter is the path to the application configuration file.
+The example of the configuration file is in the ${project-directory}/src/main/resources/config.yml.
+
+After that server should start and you should be able to access the service on your localhost.

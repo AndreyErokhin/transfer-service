@@ -44,7 +44,6 @@ public class AccountApi {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(final Account account) {
-        //FIXME: content validation, think of error codes
         accountService.create(account);
         return Response.status(Response.Status.CREATED).build();
     }

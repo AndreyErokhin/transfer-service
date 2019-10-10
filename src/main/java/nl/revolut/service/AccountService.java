@@ -104,7 +104,7 @@ public class AccountService {
     }
 
 
-    //TODO: is negative balance check required?
+    //TODO: is negative balance check required? Not sure.
     public Account updateBalance(final String accountId, final BigDecimal newBalance) {
         return accountMap.computeIfPresent(
             accountId,

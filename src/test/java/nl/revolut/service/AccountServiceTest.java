@@ -13,7 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class AccountServiceTest {
 
@@ -24,7 +28,7 @@ public class AccountServiceTest {
     private AccountService service;
 
     @Before
-    public void resetService(){
+    public void setUp(){
         HashMap<String, Account>accountMap = new HashMap();
         accountMap.put(firstAccount.getAccountId(),firstAccount);
         accountMap.put(secondAccount.getAccountId(),secondAccount);

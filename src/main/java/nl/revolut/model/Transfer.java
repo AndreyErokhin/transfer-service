@@ -1,10 +1,12 @@
 package nl.revolut.model;
 
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.math.BigDecimal;
 
 @Value
+@NoArgsConstructor(force = true)
 public class Transfer {
     private final String transferId;
     private final String debitAccountId;
@@ -31,6 +33,9 @@ public class Transfer {
     ) {
         if (amount != null && amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Amount must be greater than 0");
+        }
+        if (creditAccountId.equals(debitAccountId)) {
+            throw new IllegalArgumentException("Transfer money to the same account isn't possible.");
         }
         this.transferId = transferId;
         this.debitAccountId = debitAccountId;

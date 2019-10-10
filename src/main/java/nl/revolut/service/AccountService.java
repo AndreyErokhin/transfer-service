@@ -60,7 +60,7 @@ public class AccountService {
             return new Account(accountId, newBalance);
         });
         if (updatedAccout == null) {
-            throw new AccountVerificationException("Credit account %s not found.");
+            throw new AccountVerificationException(String.format("Credit account %s not found.", creditAccountId));
         }
     }
 
@@ -71,7 +71,7 @@ public class AccountService {
             return new Account(accountId, newBalance);
         });
         if (updatedAccout == null) {
-            throw new AccountVerificationException("Debit account %s not found.");
+            throw new AccountVerificationException(String.format("Debit account %s not found.", debitAccountId));
         }
     }
 

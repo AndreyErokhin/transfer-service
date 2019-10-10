@@ -31,7 +31,7 @@ public class AccountApi {
     }
 
     @GET
-    @Path("account/{id}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("id") final String accountId) {
         Optional<Account> accountOpt = accountService.getAccountById(accountId);
@@ -50,7 +50,7 @@ public class AccountApi {
     }
 
     @PUT
-    @Path("/account/{id}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateBalance(@PathParam("id") final String accountId, final BigDecimal newBalance) {
@@ -59,7 +59,7 @@ public class AccountApi {
     }
 
     @DELETE
-    @Path("/account/{id}")
+    @Path("/{id}")
     public Response delete(@PathParam("id") final String accountId) {
         boolean deleted = accountService.delete(accountId);
         return deleted

@@ -37,8 +37,8 @@ public class ProcessingService {
                     transfer.getDebitAccountId(),
                     transfer.getAmount()
                 );
-            } catch (AccountVerificationException e) {
-                log.error("Incorrect account.", e);
+            } catch (Throwable e) {
+                log.error(e.getMessage(), e);
                 return false;
             }
         }, executorService);

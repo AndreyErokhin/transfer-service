@@ -9,7 +9,7 @@ I tried to use as less frameworks as possible and as much pure JAVA as possible.
 
 There is only 1 integration test in the project:
    `transfer-service/src/test/java/nl/revolut/TransferServiceApplicationTest.java`
-There is no need to test the app extensively, since the logic is very simple. I added this test as an example how I would do the testing. But In general API is covered by the tests.
+There is no need to test the app extensively, since the logic is very simple. I added this test as an example how I would do the testing. But In general API and services are covered by tests.
 
 The Account API I added for convenience. I didn't spend much time on checking the concurrency issues and other potential drawbacks.   
 

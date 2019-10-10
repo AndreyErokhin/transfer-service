@@ -6,6 +6,8 @@ import nl.revolut.model.Transfer;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,6 +35,10 @@ public class TransferService {
     public Optional<Transfer> getTransferById(final String transferId) {
         Transfer transfer = transferMap.get(transferId);
         return transfer != null ? Optional.of(transfer) : Optional.empty();
+    }
+
+    public List<Transfer> fetchAllTransfers() {
+        return new ArrayList<>(transferMap.values());
     }
 
     private Transfer createNewTransfer(

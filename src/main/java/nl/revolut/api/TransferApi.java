@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -51,7 +52,6 @@ public class TransferApi {
 
     @GET
     @Path("/{transferId}")
-    @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     public Response getTransfer(@PathParam("transferId")final String transferId) {
         return transferService.getTransferById(transferId)
@@ -59,5 +59,11 @@ public class TransferApi {
             .orElse(Response.status(Response.Status.NOT_FOUND)
                         .entity(String.format("Transfer:  with id %s not found", transferId)))
             .build();
+    }
+
+    @GET
+    @Produces(APPLICATION_JSON)
+    public List<Transfer> listAllTransfers() {
+        return transferService.fetchAllTransfers();
     }
 }

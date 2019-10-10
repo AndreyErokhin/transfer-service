@@ -22,7 +22,7 @@ public class Transfer {
      * @param debitAccountId
      * @param amount
      * @param processingResult
-     * @throws IllegalArgumentException if the amount is less or equal to 0;
+     * @throws IllegalArgumentException if the amount is less or equal to 0 or credit and debit accounts are the same;
      */
     public Transfer(
         final String transferId,

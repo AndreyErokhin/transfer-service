@@ -21,6 +21,13 @@ public class AccountService {
         this.accountMap = new ConcurrentHashMap(accountMap);
     }
 
+    /**
+     * @param creditAccountId
+     * @param debitAccountId
+     * @param amount
+     * @return
+     * @throws AccountVerificationException,AccountBalanceException If account not fount or the balance isn't sufficient to execute the transfer.
+     */
     public boolean makeTransaction(final String creditAccountId, final String debitAccountId, final BigDecimal amount)
         throws AccountVerificationException {
         if (amount.compareTo(BigDecimal.ZERO) < 0) {

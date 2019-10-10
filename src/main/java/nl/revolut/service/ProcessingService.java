@@ -29,6 +29,11 @@ public class ProcessingService {
         this.accountService = accountService;
     }
 
+    /**
+     * @param transfer
+     * @return the completable feature that can be used to get the transfer processing result. true if transfer was
+     * executed successfully and false if it has failed.
+     */
     public CompletableFuture<Boolean> startProcessing(final Transfer transfer) {
         CompletableFuture<Boolean> transferTask = CompletableFuture.supplyAsync(() -> {
             try {

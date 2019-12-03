@@ -2,7 +2,7 @@
 Test assignment for the fintech company. The rest API for money transfers between accounts.
 Using the Spring framework is forbidden.
 
-To implement the service I used Drpwizard frameweork. More information on the project page: https://www.dropwizard.io/
+To implement the service I used Dropwizard frameweork. More information on the project page: https://www.dropwizard.io/
 
 ### Remarks.
 I tried to use as less frameworks as possible and as much pure JAVA as possible.
